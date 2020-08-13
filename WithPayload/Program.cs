@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 // Same as ExplicitJoinTable, but with payload added to the join entity
-// Changes from ReallySimple:
+// Changes from ExplicitJoinTable:
 // - Added CommunityPerson.MemberSince property
 // - Additional configuration in OnModelCreating to make the value store-generated
 // - Additional code in Program to query the join table

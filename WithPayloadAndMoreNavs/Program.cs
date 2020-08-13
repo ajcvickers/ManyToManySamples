@@ -6,11 +6,12 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-// Same as WithPayload, but with navigations on the join entity type
-// Changes from WithPayload:
-// - Added Community and Person navigations properties
-// - Updated OnModelCreating to use navigations
-// - Updated the code in Program to print out names, not just IDs
+// Same as WithPayloadAndNavs, but with navigations _to_ the join entity type
+// Changes from WithPayloadAndNavs:
+// - Renamed the join table to MembershipData to indicate that it now has a role in the domain
+// - Added MemberData to Community to allow easy access to membership information--i.e. the payload
+//   - Notice that the code that treats this as a many-to-many remains unchanged
+// - Updated the code in Program to print out membership data in the first query
 
 public class Community
 {
@@ -18,6 +19,8 @@ public class Community
     public string Name { get; set; }
 
     public ICollection<Person> Members { get; } = new List<Person>();
+
+    public ICollection<MembershipData> MemberData { get; set; }
 }
 
 public class Person
@@ -28,7 +31,7 @@ public class Person
     public ICollection<Community> Memberships { get; } = new List<Community>();
 }
 
-public class CommunityPerson
+public class MembershipData
 {
     public int CommunityId { get; set; }
     public int PersonId { get; set; }
@@ -50,9 +53,9 @@ public class CommunitiesContext : DbContext
             .Entity<Community>()
             .HasMany(e => e.Members)
             .WithMany(e => e.Memberships)
-            .UsingEntity<CommunityPerson>(
+            .UsingEntity<MembershipData>(
                 e => e.HasOne(e => e.Person).WithMany(),
-                e => e.HasOne(e => e.Community).WithMany())
+                e => e.HasOne(e => e.Community).WithMany(e => e.MemberData))
             .Property(e => e.MemberSince).HasDefaultValueSql("CURRENT_TIMESTAMP"); // Configure the payload property
     }
 
@@ -124,20 +127,12 @@ public static class Program
             {
                 Console.Write($"Community \"{community.Name}\" has members");
 
-                foreach (var member in community.Members)
+                foreach (var membershipData in community.MemberData)
                 {
-                    Console.Write($" '{member.Name}'");
+                    Console.Write($" '{membershipData.Person.Name}' (since {membershipData.MemberSince})");
                 }
 
                 Console.WriteLine();
-            }
-
-            // Query the join table explicitly to get payload
-            Console.WriteLine();
-            Console.WriteLine();
-            foreach (var community in context.Set<CommunityPerson>().ToList())
-            {
-                Console.WriteLine($"Person {community.Person.Name} has been a member of {community.Community.Name} since {community.MemberSince}");
             }
 
             // Show what the state manager is tracking

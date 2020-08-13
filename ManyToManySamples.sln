@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithPayload", "WithPayload\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithPayloadAndNavs", "WithPayloadAndNavs\WithPayloadAndNavs.csproj", "{203B5808-B9EC-4DDE-9C55-3039AB19F113}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithPayloadAndMoreNavs", "WithPayloadAndMoreNavs\WithPayloadAndMoreNavs.csproj", "{B8676627-9CE0-4A25-A826-3B944F70E92E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8676627-9CE0-4A25-A826-3B944F70E92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8676627-9CE0-4A25-A826-3B944F70E92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8676627-9CE0-4A25-A826-3B944F70E92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8676627-9CE0-4A25-A826-3B944F70E92E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
