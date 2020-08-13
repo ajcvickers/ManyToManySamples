@@ -6,7 +6,10 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-// Simple, implicit many-to-many example
+// Same as ReallySimple, but this time with an explicitly-defined entity type for the join table
+// Changes from ReallySimple:
+// - CommunityPerson type
+// - OnModelCreating to configure it
 
 public class Community
 {
@@ -24,12 +27,28 @@ public class Person
     public ICollection<Community> Memberships { get; } = new List<Community>();
 }
 
+public class CommunityPerson
+{
+    public int CommunityId { get; set; }
+    public int PersonId { get; set; }
+}
+
 public class CommunitiesContext : DbContext
 {
     public DbSet<Community> Communities { get; set; }
     public DbSet<Person> People { get; set; }
 
-    // Notice--no OnModelCreating. Many-to-many is being built by convention.
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // This is the fluent API to configure a join table explicitly
+        modelBuilder
+            .Entity<Community>()
+            .HasMany(e => e.Members)
+            .WithMany(e => e.Memberships)
+            .UsingEntity<CommunityPerson>(
+                r => r.HasOne<Person>().WithMany(),
+                r => r.HasOne<Community>().WithMany());
+    }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
@@ -45,7 +64,7 @@ public static class Program
         using (var context = new CommunitiesContext())
         {
             // Show the EF model
-            // Notice that in this case the join table type is a `Dictionary<string, object>`
+            // Notice that in this case the join table is the CommunityPerson entity type defined above
             Console.WriteLine();
             Console.WriteLine("EF model is:");
             Console.WriteLine(context.Model.ToDebugString(MetadataDebugStringOptions.ShortDefault));
