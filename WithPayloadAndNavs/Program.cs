@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-// Same as ReallySimple, but this time with an explicitly-defined entity type for the join table
+// Same as WithPayload, but with navigations on the join entity type
 // Changes from ReallySimple:
-// - CommunityPerson type
-// - OnModelCreating to configure it
+// - Added Community and Person navigations properties
+// - Updated OnModelCreating to use navigations
+// - Updated the code in Program to print out names, not just IDs
 
 public class Community
 {
@@ -31,6 +32,10 @@ public class CommunityPerson
 {
     public int CommunityId { get; set; }
     public int PersonId { get; set; }
+    public DateTime MemberSince { get; set; }
+
+    public Community Community { get; set; }
+    public Person Person { get; set; }
 }
 
 public class CommunitiesContext : DbContext
@@ -46,8 +51,9 @@ public class CommunitiesContext : DbContext
             .HasMany(e => e.Members)
             .WithMany(e => e.Memberships)
             .UsingEntity<CommunityPerson>(
-                e => e.HasOne<Person>().WithMany(),
-                e => e.HasOne<Community>().WithMany());
+                e => e.HasOne<Person>(e => e.Person).WithMany(),
+                e => e.HasOne<Community>(e => e.Community).WithMany())
+            .Property(e => e.MemberSince).HasDefaultValueSql("CURRENT_TIMESTAMP"); // Configure the payload property
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -111,7 +117,7 @@ public static class Program
             // Use Include to pull in the many-to-many relationship
             var communities = context.Communities.Include(e => e.Members).ToList();
 
-            // Show what we loaded
+            // Show what we loaded - notice we still don't care about the join table in this code
             Console.WriteLine();
             Console.WriteLine();
             foreach (var community in communities)
@@ -124,6 +130,14 @@ public static class Program
                 }
 
                 Console.WriteLine();
+            }
+
+            // Query the join table explicitly to get payload
+            Console.WriteLine();
+            Console.WriteLine();
+            foreach (var community in context.Set<CommunityPerson>().ToList())
+            {
+                Console.WriteLine($"Person {community.Person.Name} has been a member of {community.Community.Name} since {community.MemberSince}");
             }
 
             // Show what the state manager is tracking

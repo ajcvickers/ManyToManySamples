@@ -48,8 +48,8 @@ public class CommunitiesContext : DbContext
             .HasMany(e => e.Members)
             .WithMany(e => e.Memberships)
             .UsingEntity<CommunityPerson>(
-                r => r.HasOne<Person>().WithMany(),
-                r => r.HasOne<Community>().WithMany())
+                e => e.HasOne<Person>().WithMany(),
+                e => e.HasOne<Community>().WithMany())
             .Property(e => e.MemberSince).HasDefaultValueSql("CURRENT_TIMESTAMP"); // Configure the payload property
     }
 
@@ -64,8 +64,8 @@ public class CommunitiesContext : DbContext
     //         .HasMany(e => e.Members)
     //         .WithMany(e => e.Memberships)
     //         .UsingEntity<CommunityPerson>(
-    //             r => r.HasOne<Person>().WithMany(),
-    //             r => r.HasOne<Community>().WithMany());
+    //             e => e.HasOne<Person>().WithMany(),
+    //             e => e.HasOne<Community>().WithMany());
     //
     //     modelBuilder
     //         .Entity<CommunityPerson>()

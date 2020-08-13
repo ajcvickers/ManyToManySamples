@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplicitJoinTable", "Explic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithPayload", "WithPayload\WithPayload.csproj", "{F71C62DF-83F2-4DBD-A1D7-40BB32EAE650}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithPayloadAndNavs", "WithPayloadAndNavs\WithPayloadAndNavs.csproj", "{203B5808-B9EC-4DDE-9C55-3039AB19F113}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{F71C62DF-83F2-4DBD-A1D7-40BB32EAE650}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F71C62DF-83F2-4DBD-A1D7-40BB32EAE650}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F71C62DF-83F2-4DBD-A1D7-40BB32EAE650}.Release|Any CPU.Build.0 = Release|Any CPU
+		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{203B5808-B9EC-4DDE-9C55-3039AB19F113}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
