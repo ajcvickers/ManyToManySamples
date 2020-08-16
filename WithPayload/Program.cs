@@ -58,6 +58,10 @@ public class CommunitiesContext : DbContext
     // // people to understand
     // protected override void OnModelCreating(ModelBuilder modelBuilder)
     // {
+    //     modelBuilder
+    //         .Entity<CommunityPerson>()
+    //         .Property(e => e.MemberSince).HasDefaultValueSql("CURRENT_TIMESTAMP"); // Configure the payload property
+    //
     //     // This is the fluent API to configure a join table explicitly
     //     modelBuilder
     //         .Entity<Community>()
@@ -66,10 +70,6 @@ public class CommunitiesContext : DbContext
     //         .UsingEntity<CommunityPerson>(
     //             e => e.HasOne<Person>().WithMany(),
     //             e => e.HasOne<Community>().WithMany());
-    //
-    //     modelBuilder
-    //         .Entity<CommunityPerson>()
-    //         .Property(e => e.MemberSince).HasDefaultValueSql("CURRENT_TIMESTAMP"); // Configure the payload property
     // }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
